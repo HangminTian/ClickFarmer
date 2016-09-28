@@ -2,7 +2,6 @@ package com.example.g40m.clickfamer;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 
+import com.example.g40m.clickfamer.SharedPerference.CacheManager;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,9 +24,15 @@ public class ItemAdapter extends BaseAdapter implements AdapterView.OnItemClickL
 
     private List<Item> items = new ArrayList();
     private Activity mContext;
+    private String loginedAccountStr;
+    private List<String> loginedAccounts = new ArrayList<>();
 
     public ItemAdapter(Activity mContext) {
         this.mContext = mContext;
+        loginedAccountStr = CacheManager.getInstance().getLoginedAccount().trim();
+        if(!TextUtils.isEmpty(loginedAccountStr)){
+            Collections.addAll(loginedAccounts, loginedAccountStr.split(","));
+        }
     }
 
     public void setDatas(List<Item> mAppBeans) {
@@ -54,7 +62,7 @@ public class ItemAdapter extends BaseAdapter implements AdapterView.OnItemClickL
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.user_item, null);
             viewHolder.nameTV = (TextView) convertView.findViewById(R.id.tv_name);
-            viewHolder.nameTV.setBackgroundResource(R.color.colorAccent);
+//            viewHolder.nameTV.setBackgroundResource(R.color.colorAccent);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -64,9 +72,13 @@ public class ItemAdapter extends BaseAdapter implements AdapterView.OnItemClickL
     }
 
     private void setAppView(int position, ViewHolder viewHolder) {
-        Item item = getItem(position);
-        viewHolder.nameTV.setText(item.getUsername());
-
+        String username = getItem(position).getUsername();
+        viewHolder.nameTV.setText(username);
+        if(loginedAccounts.contains(username)){
+            viewHolder.nameTV.setBackgroundResource(R.color.logined);
+        } else{
+            viewHolder.nameTV.setBackgroundResource(R.color.notlogin);
+        }
     }
 
     @Override
@@ -78,10 +90,15 @@ public class ItemAdapter extends BaseAdapter implements AdapterView.OnItemClickL
         if(TextUtils.isEmpty(item.getPassword())||TextUtils.isEmpty(item.getUsername())){
             return;
         }
-        view.findViewById(R.id.tv_name).setBackgroundResource(R.color.colorPrimary);
+        view.findViewById(R.id.tv_name).setBackgroundResource(R.color.logined);
         Intent intent = new Intent("com.tcy.union.clickfarmer");
         intent.putExtra("username", item.getUsername());
         intent.putExtra("password", item.getPassword());
+        if(!loginedAccounts.contains(item.getUsername())){
+            loginedAccountStr += (","+item.getUsername());
+            loginedAccounts.add(item.getUsername());
+            CacheManager.getInstance().setLoginedAccount(loginedAccountStr);
+        }
         mContext.startActivity(intent);
     }
 

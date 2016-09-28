@@ -4,27 +4,33 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import com.example.g40m.clickfamer.SharedPerference.HallConfigManager;
+import com.example.g40m.clickfamer.SharedPerference.CacheManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity   {
 
-    HallConfigManager manager = HallConfigManager.getInstance();
+    CacheManager manager = CacheManager.getInstance();
     private GridView mGridView;
     private ItemAdapter mAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkTime();
         initUI();
-
     }
 
-    public  void initUI() {
+    private void checkTime(){
+        if ((System.currentTimeMillis() - CacheManager.getInstance().getLastLoadTime()) > 1000 * 60 * 60 * 14){
+            CacheManager.getInstance().setLoginedAccount("");
+        }
+        CacheManager.getInstance().setLastLoadTime();
+    }
+
+    private  void initUI() {
         findViewById(R.id.textview_import).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
