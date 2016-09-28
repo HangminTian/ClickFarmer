@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.g40m.clickfamer">
 
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name="com.example.g40m.clickfamer.MyApplication"
         android:allowBackup="true"
