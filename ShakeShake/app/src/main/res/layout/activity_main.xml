@@ -29,7 +29,7 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/textview_import"
         android:id="@+id/grideview_items"
-        android:numColumns="4"
+        android:numColumns="3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></GridView>
 </RelativeLayout>
