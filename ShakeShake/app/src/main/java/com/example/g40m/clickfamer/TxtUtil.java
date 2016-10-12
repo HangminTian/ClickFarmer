@@ -15,6 +15,10 @@ import java.util.List;
  * Created by G40M on 2016/9/27.
  */
 public class TxtUtil {
+    public static List<Item> GetAccounts(){
+        String lHalf = "shuatcy";
+        return null;
+    }
     public static List<Item> GetSDKParam4UIFromFile(String url)
     {
         List<Item> list = new ArrayList<>();
@@ -52,23 +56,24 @@ public class TxtUtil {
             Log.d("thm","strName  line = "+line);
             String account="";
             String password="";
-            String[] pList = line.split("=");
-            if (pList.length != 2)
-                continue;
-
-            if (pList[0].trim().compareTo("account") == 0){
-                account = pList[1].trim();
-                if((line = buf.readLine()) != null){
-                    pList = line.split("=");
-                    if (pList.length != 2)
-                        continue;
-                    if (pList[0].trim().compareTo("password") == 0){
-                        password = pList[1].trim();
-                        list.add(new Item(account, password));
-                    }
-
-                }
-            }
+            account = line.trim();
+//            String[] pList = line.split("=");
+//            if (pList.length != 2)
+//                continue;
+//
+//            if (pList[0].trim().compareTo("account") == 0){
+//                account = pList[1].trim();
+//                if((line = buf.readLine()) != null){
+//                    pList = line.split("=");
+//                    if (pList.length != 2)
+//                        continue;
+//                    if (pList[0].trim().compareTo("password") == 0){
+//                        password = pList[1].trim();
+                        list.add(new Item(account, "qawsed"));
+//                    }
+//
+//                }
+//            }
         }
 
         return list;

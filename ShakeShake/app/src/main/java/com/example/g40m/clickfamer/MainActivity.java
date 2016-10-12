@@ -2,12 +2,15 @@ package com.example.g40m.clickfamer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 
 import com.example.g40m.clickfamer.SharedPerference.CacheManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends Activity   {
@@ -24,10 +27,13 @@ public class MainActivity extends Activity   {
     }
 
     private void checkTime(){
-        if ((System.currentTimeMillis() - CacheManager.getInstance().getLastLoadTime()) > 1000 * 60 * 60 * 14){
+        Date currDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String nowTime = dateFormat.format(currDate);
+        if ( !CacheManager.getInstance().getLastLoadTime().equals(nowTime)){
             CacheManager.getInstance().setLoginedAccount("");
         }
-        CacheManager.getInstance().setLastLoadTime();
+        CacheManager.getInstance().setLastLoadTime(nowTime);
     }
 
     private  void initUI() {

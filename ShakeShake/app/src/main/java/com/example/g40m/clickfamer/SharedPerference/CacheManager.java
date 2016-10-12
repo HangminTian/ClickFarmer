@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 
 import com.example.g40m.clickfamer.MyApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -35,12 +37,12 @@ public class CacheManager {
         return mPreferences;
     }
 
-    public Long getLastLoadTime() {
-        return mPreferences.getLong(LOAD_TIME_KEY, 0);
+    public String getLastLoadTime() {
+        return mPreferences.getString(LOAD_TIME_KEY, "");
     }
 
-    public void setLastLoadTime() {
-        mPreferences.edit().putLong(LOAD_TIME_KEY, System.currentTimeMillis()).commit();
+    public void setLastLoadTime(String nowTime) {
+        mPreferences.edit().putString(LOAD_TIME_KEY, nowTime).commit();
     }
 
     public String getLoginedAccount() {
